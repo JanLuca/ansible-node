@@ -1,0 +1,24 @@
+---
+
+- name: Install apt-transport-https package
+  apt:
+    name: apt-transport-https
+    state: 'present'
+
+- name: Install APT-Key
+  apt_key:
+    data: "{{ lookup('file', 'nodesource-apt-key.asc') }}"
+    state: present
+
+- name: Install nodesource repo
+  template:
+    src: 'nodesource.list.jinja2'
+    dest: '/etc/apt/sources.list.d/nodesource.list'
+    owner: 'root'
+    group: 'root'
+    mode: 0644
+
+- name: Install nodejs package
+  apt:
+    name: nodejs
+    state: 'present'
